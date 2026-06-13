@@ -1,0 +1,18 @@
+﻿# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Data (large files - track separately if needed)
+data/*.csv
+
+# MLflow
+mlflow/mlruns/
+mlflow/mlartifacts/
+
+# IDE
+.idea/
+
+# Env files
+.env
