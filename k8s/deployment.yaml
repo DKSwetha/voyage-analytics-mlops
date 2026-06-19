@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-price-api
+  labels:
+    app: flight-price-api
+spec:
+  replicas: 2                      # 2 instances running simultaneously
+  selector:
+    matchLabels:
+      app: flight-price-api
+  template:
+    metadata:
+      labels:
+        app: flight-price-api
+    spec:
+      containers:
+        - name: flight-price-api
+          image: flight-price-api:latest
+          imagePullPolicy: Never   # use local image, not DockerHub
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:          # k8s checks /health before sending traffic
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:           # k8s restarts container if /health fails
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20

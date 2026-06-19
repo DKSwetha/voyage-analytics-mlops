@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flight-price-api-service
+spec:
+  type: NodePort          # exposes the service on a port on your machine
+  selector:
+    app: flight-price-api
+  ports:
+    - protocol: TCP
+      port: 80            # internal cluster port
+      targetPort: 5000    # container's port
+      nodePort: 30007     # port you'll access on your machine
