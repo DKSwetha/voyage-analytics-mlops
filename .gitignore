@@ -16,3 +16,7 @@ mlflow/mlartifacts/
 
 # Env files
 .env
+airflow/logs/
+mlflow.db
+
+mlruns/
