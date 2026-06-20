@@ -30,6 +30,7 @@ Each model is tracked with MLflow, the flight price model is served via a Flask 
 ```
 voyage-analytics-mlops/
 ├── data/                   # Raw and processed datasets (gitignored CSVs)
+├── mlflow/                 # Experiment tracking (gitignored)
 ├── notebooks/              # EDA scripts
 │   ├── 01_eda_flights.py
 │   ├── 02_eda_users.py
@@ -51,7 +52,8 @@ voyage-analytics-mlops/
 ├── airflow/
 │   ├── dags/
 │   │   └── flight_price_pipeline.py
-│   └── docker-compose.yaml
+│   ├── docker-compose.yaml
+│   └── Dockerfile
 ├── streamlit_app/
 │   └── app.py
 ├── .github/workflows/
@@ -161,16 +163,3 @@ Every push and pull request to `main` triggers `.github/workflows/ci.yml`, which
 - **Gender classification**: ~33% of users have unlabeled (`"none"`) gender. The model is trained on labeled users and used to predict the rest. A baseline using only `company`/`age` performs near chance (~50%), since neither has a real relationship to gender; adding a name-derived feature (last letter of first name) improved accuracy to ~74%. This reflects a known but non-generalizable heuristic (works best for Western/English naming conventions) — noted as a limitation.
 - **Hotel recommendation**: Since each city has exactly one hotel, traditional collaborative filtering doesn't apply meaningfully. Instead, a content-based approach matches each user's historical average price paid and trip length against each hotel's typical price/stay profile using scaled Euclidean distance. The Streamlit app also supports a manual-input mode for new users with no booking history (cold-start case).
 
-## Team & Workflow
-
-This project was built collaboratively using a feature-branch + pull-request workflow:
-```bash
-git checkout -b yourname-feature-name
-# ... make changes ...
-git push -u origin yourname-feature-name
-# open a PR into main, get it reviewed, merge
-```
-
-## Demo
-
-Walkthrough video: [YouTube link](https://www.youtube.com/watch?v=oLQQfL3pUDc)
